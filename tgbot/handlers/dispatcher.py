@@ -1,0 +1,30 @@
+"""
+    Telegram event handlers
+"""
+
+import telegram
+from telegram.ext import (
+    Dispatcher, CommandHandler
+)
+
+from dtb.settings import WEBHOOK_PORT, WEBHOOK_HOST, WEBHOOK_SECRET_ENDPOINT, TELEGRAM_TOKEN
+
+from tgbot.handlers import commands
+
+
+def setup_dispatcher():
+    bot_instance = telegram.Bot(TELEGRAM_TOKEN)
+    dispatcher_instance = Dispatcher(bot_instance, None, workers=0, use_context=True)
+
+    dispatcher_instance.add_handler(CommandHandler("start", commands.command_start))
+
+    bot_instance.setWebhook(url="{}:{}/{}".format(
+        WEBHOOK_HOST,
+        WEBHOOK_PORT,
+        WEBHOOK_SECRET_ENDPOINT
+    ))
+
+    return dispatcher_instance, bot_instance
+
+
+dispatcher, bot = setup_dispatcher()
