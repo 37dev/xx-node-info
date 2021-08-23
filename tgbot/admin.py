@@ -1,14 +1,5 @@
-import random
-import telegram
 from django.contrib import admin
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-
-from dtb.settings import DEBUG
-
-from tgbot.models import Location, Arcgis
-from tgbot.models import User, UserActionLog
-from tgbot.handlers import utils
+from tgbot.models import User
 
 
 @admin.register(User)

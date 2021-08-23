@@ -1,8 +1,6 @@
-from tgbot.handlers.utils import handler_logging
 from tgbot.models import User
 
 
-@handler_logging()
 def command_start(update, context):
     u, created = User.get_user_and_created(update, context)
 
