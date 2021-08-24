@@ -1,3 +1,8 @@
+import telegram
+from telegram.utils.helpers import escape_markdown
+
+from tgbot.handlers import static_text
+
 
 def extract_user_data_from_update(update):
     """ python-telegram-bot's Update instance --> User info """
@@ -23,3 +28,17 @@ def extract_user_data_from_update(update):
             if k in user and user[k] is not None
         },
     )
+
+
+def reply(update, text):
+    update.message.reply_text(
+        text=escape_markdown(text, version=2),
+        parse_mode=telegram.ParseMode.MARKDOWN_V2
+    )
+
+
+def get_node_status_info_text(status, node_id):
+    if status == "Online":
+        return static_text.node_status_text.format(emoji="✅", status=status, node_id=node_id)
+    else:
+        return static_text.node_status_text.format(emoji="🚨", status=status, node_id=node_id)
