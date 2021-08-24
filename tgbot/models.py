@@ -1,5 +1,3 @@
-import requests
-
 from django.db import models
 from tgbot import utils
 
