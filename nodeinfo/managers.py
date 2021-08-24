@@ -6,6 +6,6 @@ class NodeInfoManager(models.Manager):
         for node_id, status in event_data.items():
             node_info, _ = self.update_or_create(
                 node_id=node_id, defaults={
-                    "status": status
+                    "status": status.capitalize()
                 }
             )
