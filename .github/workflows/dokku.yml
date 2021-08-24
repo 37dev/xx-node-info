@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -20,6 +20,6 @@ jobs:
       uses: idoberko2/dokku-deploy-github-action@v1
       with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          dokku-host: 't.okhlopkov.com'
-          app-name: 'dtb'
+          dokku-host: 'ec2-15-228-60-247.sa-east-1.compute.amazonaws.com'
+          app-name: 'xxnodeinfo'
           git-push-flags: '--force'
