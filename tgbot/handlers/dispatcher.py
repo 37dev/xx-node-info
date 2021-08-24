@@ -17,6 +17,8 @@ def setup_dispatcher():
     dispatcher_instance = Dispatcher(bot_instance, None, workers=0, use_context=True)
 
     dispatcher_instance.add_handler(CommandHandler("start", commands.command_start))
+    dispatcher_instance.add_handler(CommandHandler("subscribe", commands.command_subscribe))
+    dispatcher_instance.add_handler(CommandHandler("unsubscribe", commands.command_unsubscribe))
 
     bot_instance.setWebhook(url="{}:{}/{}".format(
         WEBHOOK_HOST,
