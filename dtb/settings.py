@@ -1,8 +1,16 @@
+import logging
 import os
 import dj_database_url
 import dotenv
 
 from pathlib import Path
+import sentry_sdk
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.celery import CeleryIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -161,3 +169,24 @@ ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
 # -----> XX NETWORK
 XX_SSE_URL = os.getenv("XX_SSE_URL", "https://dashboard-api.xx.network/v1/sse")
 XX_DASHBOARD_API_URL = os.getenv("XX_DASHBOARD_API_URL", "https://dashboard-api.xx.network/v1/")
+
+
+SENTRY_DSN = os.getenv("SENTRY_DSN")
+
+sentry_logging = LoggingIntegration(
+    level=logging.INFO,
+    event_level=logging.ERROR,
+)
+
+integrations = [
+    sentry_logging,
+    DjangoIntegration(),
+    CeleryIntegration(),
+    RedisIntegration(),
+]
+
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=integrations,
+    traces_sample_rate=1.0,
+)
