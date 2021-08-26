@@ -16,6 +16,9 @@ Django==3.2.6
 django-celery-beat==2.2.0
 django-cors-headers==3.8.0
 django-timezone-field==4.2.1
+dnspython==1.16.0
+eventlet==0.31.1
+greenlet==1.1.1
 gunicorn==20.1.0
 h11==0.12.0
 httptools==0.3.0
