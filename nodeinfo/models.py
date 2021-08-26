@@ -36,3 +36,7 @@ class NodeInfo(models.Model):
         node = cls.objects.filter(node_id=node_id).first()
 
         return node
+
+    @staticmethod
+    def get_node_network():
+        pass

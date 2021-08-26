@@ -171,7 +171,11 @@ USE_CERT = os.getenv("USE_CERT")
 ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
 
 # -----> XX NETWORK
-XX_SSE_URL = os.getenv("XX_SSE_URL", "https://dashboard-api.xx.network/v1/sse")
+XX_SSE_URLS = {
+    "BETA": "https://dashboard-api.xx.network/v1/sse/",
+    "PROTO": "https://protonet-api.xx.network/v1/sse/"
+}
+
 XX_DASHBOARD_API_URL = os.getenv("XX_DASHBOARD_API_URL", "https://dashboard-api.xx.network/v1/")
 
 
