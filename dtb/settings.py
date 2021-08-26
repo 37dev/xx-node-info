@@ -163,6 +163,10 @@ ADMIN_SECRET_ENDPOINT = os.getenv("ADMIN_SECRET_ENDPOINT")
 
 CERT_PATH = os.getenv("CERT_PATH")
 
+# Telegram webhook needs self signed certs,
+# but we dont need it locally (with ngrok, for example)
+USE_CERT = os.getenv("USE_CERT")
+
 # -----> LOGGING
 ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
 

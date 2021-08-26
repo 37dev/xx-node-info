@@ -7,7 +7,14 @@ from telegram.ext import (
     Dispatcher, CommandHandler
 )
 
-from dtb.settings import WEBHOOK_PORT, WEBHOOK_HOST, WEBHOOK_SECRET_ENDPOINT, TELEGRAM_TOKEN, CERT_PATH
+from dtb.settings import (
+    WEBHOOK_PORT,
+    WEBHOOK_HOST,
+    WEBHOOK_SECRET_ENDPOINT,
+    TELEGRAM_TOKEN,
+    CERT_PATH,
+    USE_CERT
+)
 
 from tgbot.handlers import commands
 
@@ -24,7 +31,8 @@ def setup_dispatcher():
         WEBHOOK_HOST,
         WEBHOOK_PORT,
         WEBHOOK_SECRET_ENDPOINT
-    ), certificate=open(CERT_PATH, 'rb'))
+    ), certificate=open(CERT_PATH, 'rb') if USE_CERT else None
+    )
 
     return dispatcher_instance, bot_instance
 
