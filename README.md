@@ -7,16 +7,18 @@ If a node you are subscribed to goes offline you will receive a notification on 
 
 `/start` - Start the bot.
 
-`/subscribe node_id` - Subscribe to a node id in order to receive uptime updates from it.
+`/subscribe node_id network` - Subscribe to a node id in order to receive uptime updates from it.
 
-`/unsubscribe node_id` - Unsubscribe from a node id in order to stop receiving updates from it.
+`/unsubscribe node_id network` - Unsubscribe from a node id in order to stop receiving updates from it.
+
+`/listnodes` - List all subscribed nodes.
 
 
 #### Things I will be adding:
 
 - Unity tests. There aren't any :(
 
-- Chose what network you want to receive the updates from. I.e betanet, protonet, etc.
+- Chose what network you want to receive the updates from. I.e betanet, protonet, etc. [Done]
 
 - Retrieve information about node like uptime, timeout %.
 
