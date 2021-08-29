@@ -12,8 +12,13 @@ from tgbot.handlers.dispatcher import bot
 from tgbot.utils import get_node_status_info_text
 
 
-@app.task(ignore_result=True)
 @worker_ready.connect
+def at_worker_ready(sender, **k):
+    with sender.app.connection() as conn:
+        sender.app.send_task('nodeinfo.tasks.xx_sse_nodes_uptime_info_consumer', connection=conn)
+
+
+@app.task(ignore_result=True)
 def xx_sse_nodes_uptime_info_consumer(sender, **kwargs):
     client = XxSSEClient(settings.XX_SSE_URL)
 
