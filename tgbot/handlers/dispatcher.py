@@ -26,6 +26,7 @@ def setup_dispatcher():
     dispatcher_instance.add_handler(CommandHandler("start", commands.command_start))
     dispatcher_instance.add_handler(CommandHandler("subscribe", commands.command_subscribe))
     dispatcher_instance.add_handler(CommandHandler("unsubscribe", commands.command_unsubscribe))
+    dispatcher_instance.add_handler(CommandHandler("listnodes", commands.command_list_nodes))
 
     bot_instance.setWebhook(url="{}:{}/{}".format(
         WEBHOOK_HOST,

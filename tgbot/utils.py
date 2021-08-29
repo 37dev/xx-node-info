@@ -38,7 +38,15 @@ def reply(update, text):
 
 
 def get_node_status_info_text(status, node_id):
-    if status == "Online":
-        return static_text.node_status_text.format(emoji="✅", status=status, node_id=node_id)
+    if status == "online":
+        return static_text.node_status_text.format(
+            emoji="✅",
+            status=status.capitalize(),
+            node_id=node_id
+        )
     else:
-        return static_text.node_status_text.format(emoji="🚨", status=status, node_id=node_id)
+        return static_text.node_status_text.format(
+            emoji="🚨",
+            status=status.capitalize(),
+            node_id=node_id
+        )
