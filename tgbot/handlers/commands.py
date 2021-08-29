@@ -55,10 +55,14 @@ def command_unsubscribe(update, context):
 def command_list_nodes(update, context):
     user = User.get_user(update, context)
     user_nodes = user.subscribed_nodes.all()
-    user_nodes_text = ""
-    for node in user_nodes:
-        user_nodes_text += static_text.list_nodes_line_text.format(
-            node_id=node.node_id,
-            network=node.network.capitalize(),
-            status=node.status.capitalize()
-        )
+    if user_nodes:
+        user_nodes_text = ""
+        for node in user_nodes:
+            user_nodes_text += static_text.list_nodes_line_text.format(
+                node_id=node.node_id,
+                network=node.network.capitalize(),
+                status=node.status.capitalize()
+            )
+        reply(update, user_nodes_text)
+    else:
+        reply(update, static_text.list_nodes_no_nodes_text)
