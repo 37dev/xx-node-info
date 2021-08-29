@@ -12,6 +12,7 @@ def uptime_notification_trigger(sender, instance, **kwargs):
         if old_instance.status != instance.status and instance.has_subscribers:
             notifier_info = {
                 "node_info_pk": instance.pk,
-                "node_status": instance.status
+                "node_status": instance.status,
+                "node_network": instance.network
             }
             users_node_uptime_notifier.apply_async(kwargs=notifier_info)

@@ -150,6 +150,8 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_DEFAULT_QUEUE = 'default'
 CELERY_TASK_ALWAYS_EAGER = os.getenv('CELERY_TASK_ALWAYS_EAGER', False)
 CELERY_TASK_EAGER_PROPAGATES = os.getenv('CELERY_TASK_EAGER_PROPAGATES', False)
+CELERYD_PREFETCH_MULTIPLIER = 1
+CELERY_ACKS_LATE = True
 
 # -----> TELEGRAM
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -171,7 +173,11 @@ USE_CERT = os.getenv("USE_CERT")
 ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
 
 # -----> XX NETWORK
-XX_SSE_URL = os.getenv("XX_SSE_URL", "https://dashboard-api.xx.network/v1/sse")
+XX_SSE_URLS = {
+    "BETA": "https://dashboard-api.xx.network/v1/sse/",
+    "PROTO": "https://protonet-api.xx.network/v1/sse/"
+}
+
 XX_DASHBOARD_API_URL = os.getenv("XX_DASHBOARD_API_URL", "https://dashboard-api.xx.network/v1/")
 
 
