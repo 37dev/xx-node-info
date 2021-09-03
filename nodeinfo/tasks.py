@@ -1,8 +1,11 @@
 import json
+import logging
 
 import telegram
+from billiard.pool import MaybeEncodingError
 from celery.signals import worker_ready
 from django.conf import settings
+from requests.exceptions import ChunkedEncodingError
 from telegram.utils.helpers import escape_markdown
 
 from clients.xx_sse_client import XxSSEClient
@@ -10,6 +13,9 @@ from dtb.celery import app
 from nodeinfo.models import NodeInfo
 from tgbot.handlers.dispatcher import bot
 from tgbot.utils import get_node_status_info_text
+
+
+logger = logging.getLogger(__name__)
 
 
 @worker_ready.connect
@@ -23,20 +29,28 @@ def at_worker_ready(sender, **k):
 def beta_xx_sse_nodes_uptime_info_consumer(**kwargs):
     client = XxSSEClient(settings.XX_SSE_URLS["BETA"])
 
-    for event in client.events():
-        if event.event == "node_statuses_updated":
-            data = json.loads(event.data)
-            NodeInfo.objects.update_or_create_from_event_data(data, network="beta")
+    while True:
+        try:
+            for event in client.events():
+                if event.event == "node_statuses_updated":
+                    data = json.loads(event.data)
+                    NodeInfo.objects.update_or_create_from_event_data(data, network="beta")
+        except (ChunkedEncodingError, MaybeEncodingError) as e:
+            logger.info("Error at beta_xx_sse_nodes_uptime_info_consumer: {}".format(e))
 
 
 @app.task(ignore_result=True)
 def proto_xx_sse_nodes_uptime_info_consumer(**kwargs):
     client = XxSSEClient(settings.XX_SSE_URLS["PROTO"])
 
-    for event in client.events():
-        if event.event == "node_statuses_updated":
-            data = json.loads(event.data)
-            NodeInfo.objects.update_or_create_from_event_data(data, network="proto")
+    while True:
+        try:
+            for event in client.events():
+                if event.event == "node_statuses_updated":
+                    data = json.loads(event.data)
+                    NodeInfo.objects.update_or_create_from_event_data(data, network="proto")
+        except (ChunkedEncodingError, MaybeEncodingError) as e:
+            logger.info("Error at proto_xx_sse_nodes_uptime_info_consumer: {}".format(e))
 
 
 @app.task(ignore_result=True)
