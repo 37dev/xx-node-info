@@ -2,10 +2,8 @@ import json
 import logging
 
 import telegram
-from billiard.pool import MaybeEncodingError
 from celery.signals import worker_ready
 from django.conf import settings
-from requests.exceptions import ChunkedEncodingError
 from telegram.utils.helpers import escape_markdown
 
 from clients.xx_sse_client import XxSSEClient
@@ -35,8 +33,8 @@ def beta_xx_sse_nodes_uptime_info_consumer(**kwargs):
                 if event.event == "node_statuses_updated":
                     data = json.loads(event.data)
                     NodeInfo.objects.update_or_create_from_event_data(data, network="beta")
-        except (ChunkedEncodingError, MaybeEncodingError) as e:
-            logger.info("Error at beta_xx_sse_nodes_uptime_info_consumer: {}".format(e))
+        except Exception as e:
+            logger.error("Error at beta_xx_sse_nodes_uptime_info_consumer: {}".format(str(e)))
 
 
 @app.task(ignore_result=True)
@@ -49,8 +47,8 @@ def proto_xx_sse_nodes_uptime_info_consumer(**kwargs):
                 if event.event == "node_statuses_updated":
                     data = json.loads(event.data)
                     NodeInfo.objects.update_or_create_from_event_data(data, network="proto")
-        except (ChunkedEncodingError, MaybeEncodingError) as e:
-            logger.info("Error at proto_xx_sse_nodes_uptime_info_consumer: {}".format(e))
+        except Exception as e:
+            logger.error("Error at proto_xx_sse_nodes_uptime_info_consumer: {}".format(str(e)))
 
 
 @app.task(ignore_result=True)
