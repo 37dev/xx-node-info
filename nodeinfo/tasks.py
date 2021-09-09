@@ -25,10 +25,9 @@ def at_worker_ready(sender, **k):
 
 @app.task(ignore_result=True)
 def beta_xx_sse_nodes_uptime_info_consumer(**kwargs):
-    client = XxSSEClient(settings.XX_SSE_URLS["BETA"])
-
     while True:
         try:
+            client = XxSSEClient(settings.XX_SSE_URLS["BETA"])
             for event in client.events():
                 if event.event == "node_statuses_updated":
                     data = json.loads(event.data)
@@ -39,10 +38,9 @@ def beta_xx_sse_nodes_uptime_info_consumer(**kwargs):
 
 @app.task(ignore_result=True)
 def proto_xx_sse_nodes_uptime_info_consumer(**kwargs):
-    client = XxSSEClient(settings.XX_SSE_URLS["PROTO"])
-
     while True:
         try:
+            client = XxSSEClient(settings.XX_SSE_URLS["PROTO"])
             for event in client.events():
                 if event.event == "node_statuses_updated":
                     data = json.loads(event.data)
