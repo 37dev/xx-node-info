@@ -18,7 +18,7 @@ If a node you are subscribed to goes offline you will receive a notification on 
 
 - Unity tests. There aren't any :(
 
-- Chose what network you want to receive the updates from. I.e betanet, protonet, etc. [Done]
+- Chose what network you want to receive the updates from. I.e canary, mainnet, etc. [Done]
 
 - Retrieve information about node like uptime, timeout %.
 

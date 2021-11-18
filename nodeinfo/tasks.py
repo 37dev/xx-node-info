@@ -19,34 +19,34 @@ logger = logging.getLogger(__name__)
 @worker_ready.connect
 def at_worker_ready(sender, **k):
     with sender.app.connection() as conn:
-        sender.app.send_task('nodeinfo.tasks.beta_xx_sse_nodes_uptime_info_consumer', connection=conn)
-        sender.app.send_task('nodeinfo.tasks.proto_xx_sse_nodes_uptime_info_consumer', connection=conn)
+        sender.app.send_task('nodeinfo.tasks.canary_xx_sse_nodes_uptime_info_consumer', connection=conn)
+        sender.app.send_task('nodeinfo.tasks.mainnet_xx_sse_nodes_uptime_info_consumer', connection=conn)
 
 
 @app.task(ignore_result=True)
-def beta_xx_sse_nodes_uptime_info_consumer(**kwargs):
+def canary_xx_sse_nodes_uptime_info_consumer(**kwargs):
     while True:
         try:
-            client = XxSSEClient(settings.XX_SSE_URLS["BETA"])
+            client = XxSSEClient(settings.XX_SSE_URLS["CANARY"])
             for event in client.events():
                 if event.event == "node_statuses_updated":
                     data = json.loads(event.data)
-                    NodeInfo.objects.update_or_create_from_event_data(data, network="beta")
+                    NodeInfo.objects.update_or_create_from_event_data(data, network="canary")
         except Exception as e:
-            logger.error("Error at beta_xx_sse_nodes_uptime_info_consumer: {}".format(str(e)))
+            logger.error("Error at canary_xx_sse_nodes_uptime_info_consumer: {}".format(str(e)))
 
 
 @app.task(ignore_result=True)
-def proto_xx_sse_nodes_uptime_info_consumer(**kwargs):
+def mainnet_xx_sse_nodes_uptime_info_consumer(**kwargs):
     while True:
         try:
-            client = XxSSEClient(settings.XX_SSE_URLS["PROTO"])
+            client = XxSSEClient(settings.XX_SSE_URLS["MAINNET"])
             for event in client.events():
                 if event.event == "node_statuses_updated":
                     data = json.loads(event.data)
-                    NodeInfo.objects.update_or_create_from_event_data(data, network="proto")
+                    NodeInfo.objects.update_or_create_from_event_data(data, network="mainnet")
         except Exception as e:
-            logger.error("Error at proto_xx_sse_nodes_uptime_info_consumer: {}".format(str(e)))
+            logger.error("Error at mainnet_xx_sse_nodes_uptime_info_consumer: {}".format(str(e)))
 
 
 @app.task(ignore_result=True)
