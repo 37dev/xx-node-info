@@ -178,6 +178,8 @@ XX_SSE_URLS = {
     "MAINNET": "https://dashboard-api.xx.network/v1/sse/"
 }
 
+XX_SSE_TIMEOUT = os.getenv("XX_DASHBOARD_API_URL", 30)
+
 XX_DASHBOARD_API_URL = os.getenv("XX_DASHBOARD_API_URL", "https://dashboard-api.xx.network/v1/")
 
 

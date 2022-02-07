@@ -1,5 +1,6 @@
 import sseclient
 import requests
+from django.conf import settings
 
 
 class XxSSEClient(sseclient.SSEClient):
@@ -10,6 +11,6 @@ class XxSSEClient(sseclient.SSEClient):
     @staticmethod
     def _get_event_data(event_url):
         headers = {'Accept': 'text/event-stream'}
-        response = requests.get(event_url, stream=True, headers=headers)
+        response = requests.get(event_url, stream=True, headers=headers, timeout=settings.XX_SSE_TIMEOUT)
         return response
 
